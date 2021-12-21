@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap");
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --wood: #a98c4d;
+  --lightNavy: #6c63ff;
+  --sky: #32abe2;
+  --orangeJuice: #fe4a01;
+  --purple: #201e90;
+  --grey: #707070;
+  --white: #ffffff;
+  --black: #000000;
+}
+.clr-wood {
+  color: var(--wood) !important;
+}
+.clr-lightNavy {
+  color: var(--lightNavy) !important;
+}
+.clr-sky {
+  color: var(--sky) !important;
+}
+.clr-orangeJuice {
+  color: var(--orangeJuice) !important;
+}
+.clr-purple {
+  color: var(--purple) !important;
+}
+.clr-grey {
+  color: var(--grey) !important;
+}
+.clr-white {
+  color: #ffffff !important;
+}
+.clr-black {
+  color: #000000 !important;
+}
+.bg-transparent{
+  background-color: transparent !important;
+}
+.bg-wood {
+  background-color: var(--wood) !important;
+}
+.bg-lightNavy {
+  background-color: var(--lightNavy) !important;
+}
+.bg-sky {
+  background-color: var(--sky) !important;
+}
+.bg-orangeJuice {
+  background-color: var(--orangeJuice) !important;
+}
+.bg-purple {
+  background-color: var(--purple) !important;
+}
+.bg-grey {
+  background-color: var(--grey) !important;
+}
+.bg-white {
+  background-color: #ffffff !important;
+}
+.bg-black {
+  background-color: #000000 !important;
+}
+.border-wt{
+  border: 1px solid var(--white) !important;
+}
+
+body {
+  min-height: 100vh;
+  overflow: auto;
+  font-family: "Poppins", sans-serif !important;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+  cursor: pointer !important;
+}
+.pointer {
+  cursor: pointer;
+}
