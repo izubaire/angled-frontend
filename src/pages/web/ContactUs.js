@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Navbar, Footer, WebButton } from "../../components";
 import { jobs, contactUs } from "../../asset";
+import { validateEmail } from "../../utils/helper";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 const ContactUs = () => {
@@ -28,7 +30,33 @@ const ContactUs = () => {
     setEmail(e.target.value);
   };
 
-  const handleContactForm = () => {};
+  const handleContactForm = () => {
+    axios.defaults.xsrfCookieName = "csrftoken";
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+
+    if (validateEmail(email)) {
+      axios
+        .post("/api/contact_us/", {
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          title: title,
+          comment: comment,
+        })
+        .then((resp) => {
+          setFirstName("");
+          setLastName("");
+          setTitle("");
+          setEmail("");
+          setComment("");
+
+          setHasGotError(false);
+        })
+        .catch((error) => {
+          setHasGotError(true);
+        });
+    }
+  };
 
   return (
     <>

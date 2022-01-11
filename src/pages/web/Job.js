@@ -1,10 +1,31 @@
-import React, { useState } from "react";
-import { Navbar, Footer, WebButton } from "../../components";
+import React, { useState, useEffect } from "react";
+import { Navbar, Footer, WebButton, PaginationComp } from "../../components";
 import { jobs } from "../../asset";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Job = () => {
+  const [openJobs, setOpenJobs] = useState([]);
+
   const [keywords, setKeywords] = useState("");
   const [location, setLocation] = useState("");
+
+  const navigate = useNavigate();
+
+  // Get 10 record forward from this index
+  const [offset, setOffset] = useState(0);
+  const [totalJobs, setTotalJobs] = useState(0);
+
+  useEffect(() => {
+    axios.get(`/api/posts/?offset=${offset}&limit=10`).then((data) => {
+      setTotalJobs(data.data.count);
+      setOpenJobs(data.data.results);
+    });
+  }, [offset]);
+
+  const navigateToJobOrder = (job_id) => {
+    navigate("/job/order", { state: { id: job_id } });
+  };
 
   const handleKeywordChange = (e) => {
     setKeywords(e.target.value);
@@ -12,6 +33,31 @@ const Job = () => {
 
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
+  };
+
+  const getJobs = () => {
+    if (keywords === "" && location === "") {
+      return openJobs;
+    } else if (keywords?.length > 0) {
+      let keys_for_search = [
+        "speciality",
+        "unit",
+        "shift",
+        "profession",
+        "position",
+      ];
+      return openJobs.filter((job) =>
+        keys_for_search.some((key) =>
+          job[key]?.toLowerCase().includes(keywords?.toLowerCase())
+        )
+      );
+    } else if (location?.length > 0) {
+      return openJobs.filter((job) =>
+        job?.location?.toLowerCase().includes(location?.toLowerCase())
+      );
+    } else {
+      return openJobs;
+    }
   };
 
   return (
@@ -91,8 +137,35 @@ const Job = () => {
                   <th>Submit</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                {getJobs()?.map((jobdata) => {
+                  return (
+                    <tr key={jobdata.id}>
+                      <td>{jobdata.position}</td>
+                      <td>{jobdata.location}</td>
+                      <td>{jobdata.unit}</td>
+                      <td>{jobdata.shift}</td>
+                      <td>{jobdata.speciality}</td>
+                      <td>{jobdata.profession}</td>
+                      <td>
+                        <WebButton
+                          name="Apply Now"
+                          class="bg-sky clr-white"
+                          handleClick={() => {
+                            navigateToJobOrder(jobdata.id);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
+            {totalJobs > 10 ? (
+              <PaginationComp setOffset={setOffset} totalJobs={totalJobs} />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </section>

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Navbar, Footer, WebButton } from "../../components";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const JobOrder = () => {
+  const { state } = useLocation();
+
   const [name, setName] = useState();
   const [cell, setCell] = useState();
   const [email, setEmail] = useState();
@@ -50,6 +54,73 @@ const JobOrder = () => {
     setPLV(e.target.value);
     setMEssage({ color: "", msg: "" });
   };
+
+  const submitJobApplication = async () => {
+    const job_post = state.id;
+
+    if (validateEmail(email) && validateBill(bill)) {
+      let jobForm = {
+        job_post: job_post,
+        candidate_name: name,
+        phone: cell,
+        email: email,
+        social_security_number: ssn,
+        driver_license: licence,
+        professional_license_verification: plv,
+        bill_rate: bill,
+        compliance_per_agency: cpa,
+        submitals_per_agency: spa,
+      };
+
+      axios.defaults.xsrfCookieName = "csrftoken";
+      axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+
+      axios
+        .post("/api/resume/", jobForm)
+        .then((resp) => {
+          setName("");
+          setCell("");
+          setEmail("");
+          setSSN("");
+          setBill("");
+          setLicence("");
+          setCPA("");
+          setSPA("");
+          setPLV("");
+          setMEssage({
+            color: "bg-success",
+            msg: "Applied to Job Successfully",
+          });
+        })
+        .catch((error) => {
+          setMEssage({ color: "bg-danger", msg: "Could not apply! Try again" });
+        });
+    }
+  };
+
+  function validateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return true;
+    }
+    setMEssage({
+      color: "bg-danger",
+      msg: "You entered an invalid email address!",
+    });
+
+    return false;
+  }
+
+  function validateBill(bill) {
+    if (bill) {
+      return true;
+    }
+    setMEssage({
+      color: "bg-danger",
+      msg: "You entered an invalid Bill amount!",
+    });
+
+    return false;
+  }
 
   return (
     <>
