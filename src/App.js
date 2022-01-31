@@ -23,6 +23,16 @@ const App = () => {
         <Route path="form" element={<Form />} />
         <Route path="contact-us" element={<ContactUs />} />
         <Route path="resume" element={<Resume />} />
+        {/* Admin Panel */}
+        <Route path="admin/dashboard" element={<Dashboard />} />
+        <Route path="admin/invoice" element={<Invoice />} />
+        <Route path="admin/new-position" element={<NewPosition />} />
+        <Route path="admin/new-job/detail/:id" element={<NewJobDetail />} />
+        <Route
+          path="admin/active-job/detail/:id"
+          element={<ActiveJobDetail />}
+        />
+        <Route path="admin/new-job/assign/:id" element={<AssignJob />} />
       </Routes>
     </>
   );
