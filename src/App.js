@@ -10,6 +10,24 @@ import {
   JobOrder,
   Resume,
 } from "./pages/web";
+import {
+  Dashboard,
+  Invoice,
+  NewJobDetail,
+  NewPosition,
+  ActiveJobDetail,
+  AssignJob,
+} from "./pages/admin";
+import {
+  ClientDashboard,
+  ClientActiveJobDetail,
+  ClientAddNew,
+  ClientCurrentlyWorkingDetail,
+  ClientManage,
+  ClientReport,
+  ClientResume,
+  ClientVendorActivity,
+} from "./pages/client";
 
 const App = () => {
   return (
@@ -33,6 +51,24 @@ const App = () => {
           element={<ActiveJobDetail />}
         />
         <Route path="admin/new-job/assign/:id" element={<AssignJob />} />
+        {/* Client Panel */}
+        <Route path="client/dashboard" element={<ClientDashboard />} />
+        <Route path="client/add-new/:id" element={<ClientAddNew />} />
+        <Route
+          path="client/active-job/:id"
+          element={<ClientActiveJobDetail />}
+        />
+        <Route
+          path="client/currently-working/:id"
+          element={<ClientCurrentlyWorkingDetail />}
+        />
+        <Route path="client/report" element={<ClientReport />} />
+        <Route path="client/resume" element={<ClientResume />} />
+        <Route
+          path="client/vendor-activity"
+          element={<ClientVendorActivity />}
+        />
+        <Route path="client/manage" element={<ClientManage />} />
       </Routes>
     </>
   );
